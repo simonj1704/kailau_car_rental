@@ -1,4 +1,4 @@
-package src;
+package src.entities;
 
 public class Car {
         private String brand;
