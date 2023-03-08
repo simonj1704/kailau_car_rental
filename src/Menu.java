@@ -1,46 +1,93 @@
 package src;
 
+import src.entities.Car;
+import src.entities.Rental;
+
 import java.util.Scanner;
 
 public class Menu {
-    private String menuHeader;
-    private String leadText;
-    private String[] menuItems;
+    GenericMenu menu = new GenericMenu("---[Kailau Car Rental]---", "Make your choice: ",new String[] {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer"});
+    UI ui = new UI();
+    Scanner in = new Scanner(System.in);
 
-    public Menu(String menuHeader, String leadText, String[] menuItems) {
-        setMenuHeader(menuHeader);
-        setMenuItems(menuItems);
-        setLeadText(leadText);
+    public void createNewVehicle() {
+        System.out.println("\nYou've selected to Create new Vehicle:");
+        String brand;
+        String model;
+        String fuelType;
+        String registrationYear;
+        String type;
+        String isRentedChoice;
+        boolean approvedChoice = false;
+        boolean isRented = false;
+
+        System.out.print("\nEnter Brand of Vehicle: ");
+        brand = in.nextLine();
+        System.out.print("\nEnter Model of Vehicle: ");
+        model = in.nextLine();
+        System.out.print("\nEnter Fuel Type of Vehicle: ");
+        fuelType = in.nextLine();
+        System.out.print("\nEnter Registration Year of Vehicle: ");
+        registrationYear = in.nextLine();
+        System.out.print("\nEnter Type of Vehicle: ");
+        type = in.nextLine();
+        System.out.print("\nIs Car already rented? (Yes)(No): ");
+        isRentedChoice = in.nextLine();
+        isRentedChoice = isRentedChoice.toLowerCase();
+
+        while (!approvedChoice) {
+            if (isRentedChoice.equals("yes") || isRentedChoice.equals("no")) {
+                if (isRentedChoice.equals("yes")) {
+                    isRented = true;
+                    approvedChoice = true;
+                } else if (isRentedChoice.equals("no")) {
+                    isRented = false;
+                    approvedChoice = true;
+                } else {
+                    System.out.println("Unknown Input, try again (Yes or No)");
+                }
+            }
+        }
+
+        Car car = new Car(brand, model, fuelType, registrationYear, type, isRented);
+        // Send car to DB
     }
 
-    public void printMenu() {
-        String printString = menuHeader + "\n";
-        for (int i = 0; i < menuItems.length; i++)
-            printString += menuItems[i] + "\n";
-        System.out.print("\n" + printString);
-    }
+    public void createRentalAgreement() {
+        String name;
+        String address;
+        int zipCode;
+        String city;
+        String fromDate;
+        String toDate;
+        int driverlicenseNumber;
+        int maxKm;
+        int km;
+        int carRegristrationNumber;
 
-    private String getMenuHeader() {
-        return menuHeader;
-    }
+        System.out.print("\nYou've selected to create New Rental Agreement.");
+        System.out.print("\nEnter Name of Customer: ");
+        name = in.nextLine();
+        System.out.print("\nEnter Address of Customer: ");
+        address = in.nextLine();
+        System.out.print("\nEnter Zip Code of Customer: ");
+        zipCode = ui.readChoiceInt();
+        System.out.print("\nEnter City corresponding with Zip Code: ");
+        city = in.nextLine();
+        System.out.print("\nEnter Start Date of Rental Agreement: ");
+        fromDate = in.nextLine();
+        System.out.print("\nEnter End Date of Rental Agreement: ");
+        toDate = in.nextLine();
+        System.out.print("\nEnter Driver License Number of Customer: ");
+        driverlicenseNumber = ui.readChoiceInt();
+        System.out.print("\nEnter Max Kilometer of Rental Agreement: ");
+        maxKm = ui.readChoiceInt();
+        System.out.print("\nEnter Kilometer of Vehicle: ");
+        km = ui.readChoiceInt();
+        System.out.print("\nEnter Car Registration Number: ");
+        carRegristrationNumber = ui.readChoiceInt();
 
-    private String getLeadText() {
-        return leadText;
-    }
-
-    private String[] getMenuItems() {
-        return menuItems;
-    }
-
-    private void setMenuHeader(String menuHeader) {
-        this.menuHeader = menuHeader;
-    }
-
-    private void setLeadText(String leadText) {
-        this.leadText = leadText;
-    }
-
-    private void setMenuItems(String[] menuItems) {
-        this.menuItems = menuItems;
+        Rental rentalAgreement = new Rental(name,address,zipCode,city,fromDate,toDate,driverlicenseNumber,maxKm,km,carRegristrationNumber);
+        // Send agreement to DB and print out?
     }
 }

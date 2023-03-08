@@ -1,26 +1,31 @@
 package src;
 
 public class Controller {
-    Menu menu = new Menu("---[Foods]---", "Make your choice: ",new String[] {"1. Add customer", "2. Banana", "3. Strawberry"});
-    UI ui = new UI();
+    Menu menu = new Menu();
     public static void main(String[] args) {
         new Controller().run();
     }
 
     public void run() {
-        DBHandler dbHandler = new DBHandler();
-        dbHandler.addCustomer();
-        /*int choice;
-        menu.printMenu();
-        choice = ui.readChoiceInt();
+        int choice;
+        menu.menu.printMenu();
+        choice = menu.ui.readChoiceInt();
 
         switch (choice) {
-            case 1 -> System.out.println("You selected Apple");
-            case 2 -> System.out.println("You selected Banana ");
-            case 3 -> System.out.println("You selected Strawberry");
-        }*/
+            case 1:
+                System.out.println("You've selected: New Rental Contract.");
+                menu.createRentalAgreement();
+                break;
+            case 2:
+                System.out.println("You've selected: Add new Vehicle. ");
+                menu.createNewVehicle();
+                break;
+            case 3:
+                System.out.println("You've selected: Add new Customer.");
+                // WIP
+                break;
+        }
     }
-
 
 }
 

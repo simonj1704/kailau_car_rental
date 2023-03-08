@@ -10,12 +10,20 @@ public class Rental {
     private int driverLicenseNumber;
     private int maxKm;
     private int km;
-    private int customerDriverLicenseNumber;
     private int carRegistrationNumber;
 
     public Rental(String name, String address, int zipCode, String city, String fromDate, String toDate,
-                  int driverLicenseNumber, int maxKm, int km, int customerDriverLicenseNumber, int carRegistrationNumber) {
-
+                  int driverLicenseNumber, int maxKm, int km, int carRegistrationNumber) {
+        setName(name);
+        setAddress(address);
+        setZipCode(zipCode);
+        setCity(city);
+        setFromDate(fromDate);
+        setToDate(toDate);
+        setDriverLicenseNumber(driverLicenseNumber);
+        setMaxKm(maxKm);
+        setKm(km);
+        setCarRegistrationNumber(carRegistrationNumber);
     }
 
     // GETTERS
@@ -59,11 +67,6 @@ public class Rental {
         return km;
     }
 
-    public int getCustomerDriverLicenseNumber() {
-        return customerDriverLicenseNumber;
-    }
-
-
     public int getCarRegistrationNumber() {
         return carRegistrationNumber;
     }
@@ -102,11 +105,24 @@ public class Rental {
         this.km = km;
     }
 
-    public void setCustomerDriverLicenseNumber(int customerDriverLicenseNumber) {
-        this.customerDriverLicenseNumber = customerDriverLicenseNumber;
-    }
-
     public void setCarRegistrationNumber(int carRegistrationNumber) {
         this.carRegistrationNumber = carRegistrationNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Rental{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", zipCode=" + zipCode +
+                ", city='" + city + '\'' +
+                ", fromDate='" + fromDate + '\'' +
+                ", toDate='" + toDate + '\'' +
+                ", driverLicenseNumber=" + driverLicenseNumber +
+                ", maxKm=" + maxKm +
+                ", km=" + km +
+                ", customerDriverLicenseNumber=" +
+                ", carRegistrationNumber=" + carRegistrationNumber +
+                '}';
     }
 }
