@@ -3,44 +3,18 @@ package src;
 import java.util.Scanner;
 
 public class Menu {
-    private String menuHeader;
-    private String leadText;
-    private String[] menuItems;
+    GenericMenu menu = new GenericMenu("---[Kailau Car Rental]---", "Make your choice: ",new String[] {"1. New Rental Contract", "2. Add New Vehicle", "3. Remove Vehicle"});
+    UI ui = new UI();
 
-    public Menu(String menuHeader, String leadText, String[] menuItems) {
-        setMenuHeader(menuHeader);
-        setMenuItems(menuItems);
-        setLeadText(leadText);
-    }
+    public void run() {
+        int choice;
+        menu.printMenu();
+        choice = ui.readChoiceInt();
 
-    public void printMenu() {
-        String printString = menuHeader + "\n";
-        for (int i = 0; i < menuItems.length; i++)
-            printString += menuItems[i] + "\n";
-        System.out.print("\n" + printString);
-    }
-
-    private String getMenuHeader() {
-        return menuHeader;
-    }
-
-    private String getLeadText() {
-        return leadText;
-    }
-
-    private String[] getMenuItems() {
-        return menuItems;
-    }
-
-    private void setMenuHeader(String menuHeader) {
-        this.menuHeader = menuHeader;
-    }
-
-    private void setLeadText(String leadText) {
-        this.leadText = leadText;
-    }
-
-    private void setMenuItems(String[] menuItems) {
-        this.menuItems = menuItems;
+        switch (choice) {
+            case 1 -> System.out.println("You selected Apple");
+            case 2 -> System.out.println("You selected Banana ");
+            case 3 -> System.out.println("You selected Strawberry");
+        }
     }
 }
