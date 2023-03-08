@@ -14,13 +14,15 @@ public class Controller {
         switch (choice) {
             case 1:
                 System.out.println("You've selected: New Rental Contract.");
+                menu.createRentalAgreement();
                 break;
             case 2:
                 System.out.println("You've selected: Add new Vehicle. ");
                 menu.createNewVehicle();
                 break;
             case 3:
-                System.out.println("You selected Strawberry");
+                System.out.println("You've selected: Add new Customer.");
+                // WIP
                 break;
         }
     }
