@@ -20,4 +20,12 @@ public class UI {
         } while (!validChoice);
         return choice;
     }
+
+    public String readChoiceString(){
+        String choice;
+        do {
+            choice = in.nextLine();
+        } while(choice.isEmpty());
+        return choice;
+    }
 }
