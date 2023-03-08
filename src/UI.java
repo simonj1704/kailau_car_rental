@@ -20,4 +20,25 @@ public class UI {
         } while (!validChoice);
         return choice;
     }
+    public void printLine(String message){
+        System.out.println(message);
+    }
+    public void print(String message){
+        System.out.print(message);
+    }
+
+    public String readString(){
+        return in.nextLine();
+    }
+
+    public String readString(String message){
+        print(message);
+        return readString();
+    }
+
+    public int readInt(){
+        int number = in.nextInt();
+        in.nextLine(); //scanner bug
+        return number;
+    }
 }
