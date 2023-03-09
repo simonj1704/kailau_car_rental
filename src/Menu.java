@@ -15,9 +15,11 @@ public class Menu {
         String brand;
         String model;
         String fuelType;
+        String registrationNumber;
         String registrationYear;
         String type;
         String isRentedChoice;
+        int odometer;
         boolean approvedChoice = false;
         boolean isRented = false;
 
@@ -27,8 +29,13 @@ public class Menu {
         model = in.nextLine();
         System.out.print("\nEnter Fuel Type of Vehicle: ");
         fuelType = in.nextLine();
+        System.out.print("\nEnter the Registration Number of the Vehichle: ");
+        registrationNumber = in.nextLine();
         System.out.print("\nEnter Registration Year of Vehicle: ");
         registrationYear = in.nextLine();
+        System.out.println("\nEnter the amount of KM on the Vehicle: ");
+        odometer = in.nextInt();
+        in.nextLine();
         System.out.print("\nEnter Type of Vehicle: ");
         type = in.nextLine();
         System.out.print("\nIs Car already rented? (Yes)(No): ");
@@ -49,7 +56,7 @@ public class Menu {
             }
         }
 
-        Car car = new Car(brand, model, fuelType, registrationYear, type, isRented);
+        Car car = new Car(brand, model, fuelType, registrationNumber, registrationYear, odometer, type, isRented);
         // Send car to DB
     }
 
