@@ -10,15 +10,6 @@ public class Output {
     UI ui = new UI();
     Scanner in = new Scanner(System.in);
 
-    public String readString(){
-        return in.nextLine();
-    }
-
-    public String readString(String message){
-        print(message);
-        return readString();
-    }
-
     public void printLine(String message){
         System.out.println(message);
     }
