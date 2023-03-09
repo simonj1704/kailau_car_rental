@@ -31,15 +31,15 @@ FOREIGN KEY (model_id) REFERENCES model(model_id)
 
 CREATE TABLE city
 (
-zip			INT		NOT NULL UNIQUE PRIMARY KEY,
-city		VARCHAR(45)
+city_zip			INT		NOT NULL UNIQUE PRIMARY KEY,
+city_name		VARCHAR(45)
 );
 
 CREATE TABLE address
 (
 address		VARCHAR(45)		NOT NULL UNIQUE PRIMARY KEY,
 city_zip	INT,
-FOREIGN KEY (city_zip) REFERENCES city(zip)
+FOREIGN KEY (city_zip) REFERENCES city(city_zip)
 );
 
 CREATE TABLE customers
