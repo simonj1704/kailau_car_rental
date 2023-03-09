@@ -24,7 +24,7 @@ CREATE TABLE cars
 registration_number		VARCHAR(45)		NOT NULL UNIQUE PRIMARY KEY,
 registration_year		DATE,
 odometer				INT,
-available				BOOLEAN,
+rented				BOOLEAN,
 model_id				INT,
 FOREIGN KEY (model_id) REFERENCES model(model_id)
 );
@@ -80,7 +80,7 @@ INSERT INTO model(model_name, fuel_type, car_type, brand_id) VALUES
 ('Supra', 'Petrol', 'Sport', 3),
 ('X6', 'Diesel', 'Family', 2);
 
-INSERT INTO cars(registration_number, registration_year, odometer, available, model_id) VALUES
+INSERT INTO cars(registration_number, registration_year, odometer, rented, model_id) VALUES
 ('AX63648', '2009-12-01', 12500, true, 1);
 
 INSERT INTO city VALUES
