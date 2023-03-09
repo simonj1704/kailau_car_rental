@@ -52,6 +52,7 @@ email_address			VARCHAR(45),
 driver_since_date		DATE,
 address					VARCHAR(45),
 FOREIGN KEY (address) REFERENCES address(address)
+ON DELETE CASCADE
 );
 
 CREATE TABLE rental_contracts
@@ -63,7 +64,8 @@ max_km					INT,
 km_on_start				INT,
 driver_license_number	INT,
 registration_number 	VARCHAR(45),
-FOREIGN KEY (driver_license_number)	REFERENCES customers(driver_license_number),
+FOREIGN KEY (driver_license_number)	REFERENCES customers(driver_license_number)
+ON DELETE CASCADE,
 FOREIGN KEY (registration_number)	REFERENCES	cars(registration_number)
 );
 

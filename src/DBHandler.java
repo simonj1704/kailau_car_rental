@@ -1,12 +1,12 @@
 package src;
 import src.entities.Car;
 import src.entities.Customer;
-import src.entities.Rental;
 
 import java.sql.*;
 import java.util.Scanner;
 
 public class DBHandler {
+    //todo create second rental_contract table so contracts dont disappear when deleting customers
     public static final String database_url = "jdbc:mysql://127.0.0.1:3306/kailau_car_rental";
     public static java.sql.Connection con;
     /**
@@ -17,7 +17,7 @@ public class DBHandler {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
             String sql = "SELECT driver_license_number, customer_name, mobile_phone_number, phone_number, " +
-                    "email_address, driver_since_date, address " +
+                    "email_address, driver_since_date, address, city_zip, city_name " +
                     "FROM customers " +
                     "JOIN address " +
                     "USING(address) " +
@@ -66,12 +66,14 @@ public class DBHandler {
     /**
      * Selects all data from car table and prints it out
      */
-    public void queryCar() {
+    public String queryCar() {
+
+        StringBuilder cars = new StringBuilder();
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
-            String sql = "SELECT registration_number, registration_year, odometer, available, " +
-                    "model_name, fuel_type, car_type, brand_name " +
+            String sql = "SELECT registration_number, model_name, brand_name, registration_year, " +
+                    "fuel_type, car_type, odometer, available " +
                     " FROM cars " +
                     "JOIN model " +
                     "USING (model_id) " +
@@ -80,10 +82,10 @@ public class DBHandler {
             ResultSet rs = s.executeQuery(sql);
 
             while(rs.next()){
-                System.out.println(rs.getString(1) + " " + rs.getDate(2)+
-                        " " + rs.getInt(3) + " " + rs.getInt(4) +
-                        " " + rs.getString(5) + " " + rs.getString(6) +
-                        " " + rs.getString(7) + " " + rs.getString(8));
+                cars.append(rs.getString(1)).append(" ").append(rs.getString(2)).append(" ")
+                        .append(rs.getString(3)).append(" ").append(rs.getDate(4)).append(" ")
+                        .append(rs.getString(5)).append(" ").append(rs.getString(6)).append(" ")
+                        .append(rs.getInt(7)).append(" ").append(rs.getBoolean(8) + "\n");
             }
 
             con.close();
@@ -91,6 +93,7 @@ public class DBHandler {
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
+        return cars.toString();
     }
 
 
@@ -149,7 +152,7 @@ public class DBHandler {
                     "VALUES(" + driversLicenseNumber + ",'" + name + "','"+ mobileNumber + "','" + phoneNumber + "','" +
                     emailAddress + "','" + driverSinceDate + "','" + address + "')";
             String sql2 = "INSERT INTO address (address,city_zip) " + "VALUES('" + address + "'," + zipCode +")";
-            String sql3 = "INSERT INTO city (city_zip, city_name)" + "VALUES(" + zipCode + ",'" + city + "')";
+            String sql3 = "INSERT INTO city (zip, city)" + "VALUES(" + zipCode + ",'" + city + "')";
             s.executeUpdate(sql3);
             s.executeUpdate(sql2);
             s.executeUpdate(sql);
@@ -193,36 +196,11 @@ public class DBHandler {
         }
     }
 
-    /**
-     * Takes a rental object as parameter and adds a rental to the database and relevant tables
-     * @param rental
-     */
-    public void addRentalDatabase(Rental rental) {
-        try {
-            con = DriverManager.getConnection(database_url, "root", "password");
-            Statement s = con.createStatement();
-            String sql = "INSERT INTO rental_contracts(from_date, to_date, max_km, km_on_start, " +
-                    "driver_license_number, registration_number)"
-                    + "VALUES ('" + rental.getFromDate() + "','" + rental.getToDate() + "','" + rental.getMaxKm() + "','"
-                    + rental.getKm() + "','" + rental.getDriverLicenseNumber() + "','"
-                    + rental.getCarRegistrationNumber() + "')";
-
-            System.out.println("rows affected: " + s.executeUpdate(sql));
-            con.close();
-
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-        }
-    }
-
     public static void main(String[] args) {
         DBHandler dbHandler = new DBHandler();
-
-        /*dbHandler.queryCustomer();
+        dbHandler.queryCustomer();
         dbHandler.queryRentalContracts();
         dbHandler.addCarDatabase(new Car("Mercedes", "E250", "Diesel", "AF23124", "2003-02-01", 12322, "Luxury", false));
-        */
-        dbHandler.addRentalDatabase(new Rental("2000-9-12", "2000-10-11", 23235564, 103, 200, "AX63648"));
-        dbHandler.queryCar();
+        System.out.println(dbHandler.queryCar());
     }
 }
