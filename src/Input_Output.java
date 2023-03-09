@@ -106,6 +106,10 @@ public class Input_Output {
         System.out.println(customers);
     }
 
+    /**
+     * This method is used for getting all the info for creating a car from the user.
+     * @return array of String with info to create a car
+     */
     public String[] carInfo(){
         //todo make better scanner check
         String[] carInfo = new String[8];
