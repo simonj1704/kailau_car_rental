@@ -67,10 +67,10 @@ public class Output {
         String city;
         String fromDate;
         String toDate;
-        int driverlicenseNumber;
+        int driverLicenseNumber;
         int maxKm;
         int km;
-        int carRegristrationNumber;
+        String carRegistrationNumber;
 
         System.out.print("\nYou've selected to create New Rental Agreement.");
         System.out.print("\nEnter Name of Customer: ");
@@ -86,15 +86,15 @@ public class Output {
         System.out.print("\nEnter End Date of Rental Agreement: ");
         toDate = in.nextLine();
         System.out.print("\nEnter Driver License Number of Customer: ");
-        driverlicenseNumber = ui.readChoiceInt();
+        driverLicenseNumber = ui.readChoiceInt();
         System.out.print("\nEnter Max Kilometer of Rental Agreement: ");
         maxKm = ui.readChoiceInt();
         System.out.print("\nEnter Kilometer of Vehicle: ");
         km = ui.readChoiceInt();
         System.out.print("\nEnter Car Registration Number: ");
-        carRegristrationNumber = ui.readChoiceInt();
+        carRegistrationNumber = in.nextLine();
 
-        Rental rentalAgreement = new Rental(name,address,zipCode,city,fromDate,toDate,driverlicenseNumber,maxKm,km,carRegristrationNumber);
+        Rental rentalAgreement = new Rental(fromDate,toDate,driverLicenseNumber,maxKm,km,carRegistrationNumber);
         // Send agreement to DB and print out?
     }
 }

@@ -193,17 +193,21 @@ public class DBHandler {
         }
     }
 
+    /**
+     * Takes a rental object as parameter and adds a rental to the database and relevant tables
+     * @param rental
+     */
     public void addRentalDatabase(Rental rental) {
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
-            String sql = "INSERT IGNORE INTO rental_contracts(from_date, to_date, max_km, km_on_start, " +
+            String sql = "INSERT INTO rental_contracts(from_date, to_date, max_km, km_on_start, " +
                     "driver_license_number, registration_number)"
                     + "VALUES ('" + rental.getFromDate() + "','" + rental.getToDate() + "','" + rental.getMaxKm() + "','"
                     + rental.getKm() + "','" + rental.getDriverLicenseNumber() + "','"
                     + rental.getCarRegistrationNumber() + "')";
 
-            s.execute(sql);
+            System.out.println("rows affected: " + s.executeUpdate(sql));
             con.close();
 
         } catch (SQLException e) {
@@ -213,9 +217,12 @@ public class DBHandler {
 
     public static void main(String[] args) {
         DBHandler dbHandler = new DBHandler();
-        dbHandler.queryCustomer();
+
+        /*dbHandler.queryCustomer();
         dbHandler.queryRentalContracts();
         dbHandler.addCarDatabase(new Car("Mercedes", "E250", "Diesel", "AF23124", "2003-02-01", 12322, "Luxury", false));
+        */
+        dbHandler.addRentalDatabase(new Rental("2000-9-12", "2000-10-11", 23235564, 103, 200, "AX63648"));
         dbHandler.queryCar();
     }
 }
