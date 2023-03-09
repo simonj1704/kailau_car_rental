@@ -69,7 +69,7 @@ public class UI {
             } else
                 op.printLine("Invalid Input.");
         }
-        return day + "-" + month + "-" + year;
+        return year + "-" + month + "-" + day;
     }
 
     public int readInt() {

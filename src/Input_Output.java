@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 public class Input_Output {
     Menu menu = new Menu("---[Kailau Car Rental]---", "Make your choice: ",new String[]
-            {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. View Car", "5. View Customers"});
+            {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. View Car",
+                    "5. View Customers", "6. View Rental Agreements"});
 
     Menu mainMenu = new Menu("---[Kailau Car Rental]---", "Make your choice: ",new String[]
             {"1. Create/Update Menu", "2. View Menu", "9. Exit Program"});
@@ -57,53 +58,27 @@ public class Input_Output {
 
     }
 
-    public void createRentalAgreement() {
-        String name;
-        String address;
-        int zipCode;
-        String city;
-        String fromDate;
-        String toDate;
-        int driverLicenseNumber;
-        int maxKm;
-        int km;
-        String carRegistrationNumber;
+    public String[] rentalAgreementInfo() {
+        String[] rentalInfo = new String[6];
 
-        System.out.print("\nYou've selected to create New Rental Agreement.");
-        System.out.print("\nEnter Name of Customer: ");
-        name = in.nextLine();
-        System.out.print("\nEnter Address of Customer: ");
-        address = in.nextLine();
-        System.out.print("\nEnter Zip Code of Customer: ");
-        zipCode = ui.readChoiceInt();
-        System.out.print("\nEnter City corresponding with Zip Code: ");
-        city = in.nextLine();
-        System.out.print("\nEnter Start Date of Rental Agreement: ");
-        fromDate = in.nextLine();
-        System.out.print("\nEnter End Date of Rental Agreement: ");
-        toDate = in.nextLine();
+        System.out.print("CREATE RENTAL AGREEMENT");
+
+        System.out.print("\nEnter Start Date of Rental Agreement: \n");
+        rentalInfo[0] = ui.readDate();
+        System.out.println("From " + rentalInfo[0]);
+        System.out.print("\nEnter End Date of Rental Agreement: \n");
+        rentalInfo[1] = ui.readDate();
+        System.out.println("From " + rentalInfo[0] + " To " + rentalInfo[1]);
         System.out.print("\nEnter Driver License Number of Customer: ");
-        driverLicenseNumber = ui.readChoiceInt();
+        rentalInfo[2] = "" + ui.readChoiceInt();
         System.out.print("\nEnter Max Kilometer of Rental Agreement: ");
-        maxKm = ui.readChoiceInt();
+        rentalInfo[3] = "" + ui.readChoiceInt();
         System.out.print("\nEnter Kilometer of Vehicle: ");
-        km = ui.readChoiceInt();
+        rentalInfo[4] = "" + ui.readChoiceInt();
         System.out.print("\nEnter Car Registration Number: ");
-        carRegistrationNumber = in.nextLine();
+        rentalInfo[5] = in.nextLine();
 
-        Rental rentalAgreement = new Rental(fromDate,toDate,driverLicenseNumber,maxKm,km,carRegistrationNumber);
-        // Send agreement to DB and print out?
-    }
-
-    public void printCars(String cars){
-        System.out.println("Registration Number\t Model\t Brand\t Registration Year\t Fuel Type\t Car Type\t Odometer\t Rented");
-        System.out.println(cars);
-    }
-
-    public void printCustomers(String customers){
-        System.out.println("Driver License Number\t Name\t Mobile Number\t Phone Number\t Email\t " +
-                "Driver Since Date\t Address\t ZIP\t City");
-        System.out.println(customers);
+        return rentalInfo;
     }
 
     /**
@@ -140,4 +115,23 @@ public class Input_Output {
         carInfo[7] = rentChoice;
         return carInfo;
     }
+
+    public void printCars(String cars){
+        System.out.println("Registration Number\t Model\t Brand\t Registration Year\t Fuel Type\t Car Type\t Odometer\t Rented");
+        System.out.println(cars);
+    }
+
+    public void printCustomers(String customers){
+        System.out.println("Driver License Number\t Name\t Mobile Number\t Phone Number\t Email\t " +
+                "Driver Since Date\t Address\t ZIP\t City");
+        System.out.println(customers);
+    }
+
+    public void printRentalAgreements(String contracts){
+        System.out.println("ID\t From Date\t To Date\t Max Km\t Km on Car\t " +
+                "Driver License number\t Registration Number");
+        System.out.println(contracts);
+    }
+
+
 }

@@ -2,6 +2,7 @@ package src;
 
 import src.entities.Car;
 import src.entities.Customer;
+import src.entities.Rental;
 
 import java.util.Scanner;
 
@@ -28,11 +29,12 @@ public class Controller {
 
     public void menuSwitch(int choice){
         switch (choice){
-            //case 1 -> createRentalAgreement();
+            case 1 -> createRentalAgreement();
             case 2 -> createCar();
             case 3 -> createCustomer();
             case 4 -> getAllCars();
             case 5 -> getAllCustomers();
+            case 6 -> getAllRentalAgreements();
             case 9 -> keepRunning = false;
         }
     }
@@ -83,16 +85,6 @@ public class Controller {
         String searchParameter = in.nextLine();
         return  searchParameter;
     }
-    public void getAllCars(){
-        inputOutput.printCars(dbHandler.queryCar());
-    }
-
-    public void getAllCustomers(){
-        inputOutput.printCustomers(dbHandler.queryCustomers());
-    }
-    public String getString(){
-        return ui.readString();
-    }
 
     public void createCar(){
         String[] carInfo = inputOutput.carInfo();
@@ -105,6 +97,24 @@ public class Controller {
                 carInfo[3], carInfo[4], Integer.parseInt(carInfo[5]), carInfo[6], isRented));
     }
 
+    public void createRentalAgreement(){
+        //todo make it easier to add since right now you need to enter a specifik driver license number and plate
+        String[] rentalInfo = inputOutput.rentalAgreementInfo();
 
+        dbHandler.addRentalDatabase(new Rental(rentalInfo[0], rentalInfo[1], Integer.parseInt(rentalInfo[2]),
+                Integer.parseInt(rentalInfo[3]), Integer.parseInt(rentalInfo[4]), rentalInfo[5]));
+    }
+
+    public void getAllCars(){
+        inputOutput.printCars(dbHandler.queryCar());
+    }
+
+    public void getAllCustomers(){
+        inputOutput.printCustomers(dbHandler.queryCustomers());
+    }
+
+    public void getAllRentalAgreements(){
+        inputOutput.printRentalAgreements(dbHandler.queryRentalContracts());
+    }
 }
 

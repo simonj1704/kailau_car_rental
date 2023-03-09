@@ -86,7 +86,7 @@ public class DBHandler {
                 cars.append(rs.getString(1)).append(" ").append(rs.getString(2)).append(" ").
                         append(rs.getString(3)).append(" ").append(rs.getInt(4)).append(" ").
                         append(rs.getString(5)).append(" ").append(rs.getString(6)).
-                        append(" ").append(rs.getInt(7)).append(" ");
+                        append(" ").append(rs.getInt(7)).append("Km ");
                 if (rs.getString(8).equals("1")){
                     cars.append("YES").append("\n");
                 } else {
@@ -106,7 +106,8 @@ public class DBHandler {
     /**
      * Selects all data from rental contracts and prints it out
      */
-    public void queryRentalContracts(){
+    public String queryRentalContracts(){
+        StringBuilder contracts = new StringBuilder();
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
@@ -114,10 +115,10 @@ public class DBHandler {
             ResultSet rs = s.executeQuery(sql);
 
             while(rs.next()){
-                System.out.println(rs.getInt(1) + " " + rs.getDate(2)+
-                        " " + rs.getDate(3) + " " + rs.getInt(4) +
-                        " " + rs.getInt(5) + " " + rs.getInt(6) +
-                        " " + rs.getString(7));
+                contracts.append(rs.getInt(1)).append(" ").append(rs.getDate(2)).
+                        append(" ").append(rs.getDate(3)).append(" ").append(rs.getInt(4)).
+                        append("Km ").append(rs.getInt(5)).append("Km ").append(rs.getInt(6)).
+                        append(" ").append(rs.getString(7) + "\n");
             }
 
             con.close();
@@ -125,6 +126,7 @@ public class DBHandler {
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
+        return contracts.toString();
     }
 
     public void addCustomer(){
@@ -228,6 +230,7 @@ public class DBHandler {
         DBHandler dbHandler = new DBHandler();
 
         dbHandler.queryRentalContracts();
-        dbHandler.addRentalDatabase(new Rental("2000-9-12", "2000-10-11", 23235564, 103, 200, "AX63648"));
+        dbHandler.addRentalDatabase(new Rental("2000-9-12", "2000-10-11",
+                23235564, 103, 200, "AX63648"));
     }
 }
