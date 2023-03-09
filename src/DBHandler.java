@@ -66,7 +66,8 @@ public class DBHandler {
     /**
      * Selects all data from car table and prints it out
      */
-    public void queryCar() {
+    public String queryCar() {
+        StringBuilder cars = new StringBuilder();
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
@@ -80,10 +81,11 @@ public class DBHandler {
             ResultSet rs = s.executeQuery(sql);
 
             while(rs.next()){
-                System.out.println(rs.getString(1) + " " + rs.getDate(2)+
-                        " " + rs.getInt(3) + " " + rs.getInt(4) +
-                        " " + rs.getString(5) + " " + rs.getString(6) +
-                        " " + rs.getString(7) + " " + rs.getString(8));
+                cars.append(rs.getString(1)).append(" ").append(rs.getDate(2)).append(" ").
+                        append(rs.getInt(3)).append(" ").append(rs.getInt(4)).append(" ").
+                        append(rs.getString(5)).append(" ").append(rs.getString(6)).
+                        append(" ").append(rs.getString(7)).append(" ").append(rs.getString(8)).
+                        append("\n");
             }
 
             con.close();
@@ -91,6 +93,7 @@ public class DBHandler {
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
+        return cars.toString();
     }
 
 
