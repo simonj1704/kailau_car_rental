@@ -1,6 +1,7 @@
 package src;
 import src.entities.Car;
 import src.entities.Customer;
+import src.entities.Rental;
 
 import java.sql.*;
 import java.util.Scanner;
@@ -16,7 +17,7 @@ public class DBHandler {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
             String sql = "SELECT driver_license_number, customer_name, mobile_phone_number, phone_number, " +
-                    "email_address, driver_since_date, address, city_zip, city_name " +
+                    "email_address, driver_since_date, address " +
                     "FROM customers " +
                     "JOIN address " +
                     "USING(address) " +
@@ -148,7 +149,7 @@ public class DBHandler {
                     "VALUES(" + driversLicenseNumber + ",'" + name + "','"+ mobileNumber + "','" + phoneNumber + "','" +
                     emailAddress + "','" + driverSinceDate + "','" + address + "')";
             String sql2 = "INSERT INTO address (address,city_zip) " + "VALUES('" + address + "'," + zipCode +")";
-            String sql3 = "INSERT INTO city (zip, city)" + "VALUES(" + zipCode + ",'" + city + "')";
+            String sql3 = "INSERT INTO city (city_zip, city_name)" + "VALUES(" + zipCode + ",'" + city + "')";
             s.executeUpdate(sql3);
             s.executeUpdate(sql2);
             s.executeUpdate(sql);
@@ -187,6 +188,24 @@ public class DBHandler {
             System.out.println("Rows affected: " + rows);
 
             con.close();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
+    }
+
+    public void addRentalDatabase(Rental rental) {
+        try {
+            con = DriverManager.getConnection(database_url, "root", "password");
+            Statement s = con.createStatement();
+            String sql = "INSERT IGNORE INTO rental_contracts(from_date, to_date, max_km, km_on_start, " +
+                    "driver_license_number, registration_number)"
+                    + "VALUES ('" + rental.getFromDate() + "','" + rental.getToDate() + "','" + rental.getMaxKm() + "','"
+                    + rental.getKm() + "','" + rental.getDriverLicenseNumber() + "','"
+                    + rental.getCarRegistrationNumber() + "')";
+
+            s.execute(sql);
+            con.close();
+
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
