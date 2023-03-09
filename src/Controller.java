@@ -78,5 +78,8 @@ public class Controller {
         String searchParameter = in.nextLine();
         return  searchParameter;
     }
+    public void getAllCars(){
+        output.printCars(dbHandler.queryCar());
+    }
 }
 
