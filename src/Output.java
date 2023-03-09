@@ -6,9 +6,16 @@ import src.entities.Rental;
 import java.util.Scanner;
 
 public class Output {
-    Menu menu = new Menu("---[Kailau Car Rental]---", "Make your choice: ",new String[] {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer"});
+    Menu menu = new Menu("---[Kailau Car Rental]---", "Make your choice: ",new String[] {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. View Car"});
     UI ui = new UI();
     Scanner in = new Scanner(System.in);
+
+    public void printLine(String message){
+        System.out.println(message);
+    }
+    public void print(String message){
+        System.out.print(message);
+    }
 
     public void createNewVehicle() {
         System.out.println("\nYou've selected to Create new Vehicle:");
@@ -96,5 +103,10 @@ public class Output {
 
         Rental rentalAgreement = new Rental(name,address,zipCode,city,fromDate,toDate,driverlicenseNumber,maxKm,km,carRegristrationNumber);
         // Send agreement to DB and print out?
+    }
+
+    public void printCars(String cars){
+        System.out.println("Registration Number\t Model\t Brand\t Registration Year\t Fuel Type\t Car Type\t Odometer\t Available");
+        System.out.println(cars);
     }
 }

@@ -31,15 +31,15 @@ FOREIGN KEY (model_id) REFERENCES model(model_id)
 
 CREATE TABLE city
 (
-zip			INT		NOT NULL UNIQUE PRIMARY KEY,
-city		VARCHAR(45)
+city_zip			INT		NOT NULL UNIQUE PRIMARY KEY,
+city_name		VARCHAR(45)
 );
 
 CREATE TABLE address
 (
 address		VARCHAR(45)		NOT NULL UNIQUE PRIMARY KEY,
 city_zip	INT,
-FOREIGN KEY (city_zip) REFERENCES city(zip)
+FOREIGN KEY (city_zip) REFERENCES city(city_zip)
 );
 
 CREATE TABLE customers
@@ -52,6 +52,7 @@ email_address			VARCHAR(45),
 driver_since_date		DATE,
 address					VARCHAR(45),
 FOREIGN KEY (address) REFERENCES address(address)
+ON DELETE CASCADE
 );
 
 CREATE TABLE rental_contracts
@@ -63,7 +64,8 @@ max_km					INT,
 km_on_start				INT,
 driver_license_number	INT,
 registration_number 	VARCHAR(45),
-FOREIGN KEY (driver_license_number)	REFERENCES customers(driver_license_number),
+FOREIGN KEY (driver_license_number)	REFERENCES customers(driver_license_number)
+ON DELETE CASCADE,
 FOREIGN KEY (registration_number)	REFERENCES	cars(registration_number)
 );
 
