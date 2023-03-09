@@ -10,6 +10,22 @@ public class Output {
     UI ui = new UI();
     Scanner in = new Scanner(System.in);
 
+    public String readString(){
+        return in.nextLine();
+    }
+
+    public String readString(String message){
+        print(message);
+        return readString();
+    }
+
+    public void printLine(String message){
+        System.out.println(message);
+    }
+    public void print(String message){
+        System.out.print(message);
+    }
+
     public void createNewVehicle() {
         System.out.println("\nYou've selected to Create new Vehicle:");
         String brand;
