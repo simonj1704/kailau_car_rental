@@ -5,8 +5,22 @@ import src.entities.Rental;
 
 import java.util.Scanner;
 
-public class Output {
-    Menu menu = new Menu("---[Kailau Car Rental]---", "Make your choice: ",new String[] {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. View Car"});
+public class Input_Output {
+    Menu menu = new Menu("---[Kailau Car Rental]---", "Make your choice: ",new String[]
+            {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. View Car", "5. View Customers"});
+
+    Menu mainMenu = new Menu("---[Kailau Car Rental]---", "Make your choice: ",new String[]
+            {"1. Create/Update Menu", "2. View Menu", "9. Exit Program"});
+
+    Menu viewMenu = new Menu("---[View Menu]---", "Make your choice: ",new String[]
+            {"1. View Rental Contracts", "2. View Cars", "3. View Customers", "4. Search for Contracts",
+            "5. Search for Cars", "6. Search for Customers", "9. Exit to Menu"});
+
+    Menu createMenu = new Menu("---[Create/Update Menu]---", "Make your choice: ",new String[]
+            {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. Update Rental Contracts",
+                    "5. Update Vehicles", "6. Update Customers", "9. Exit to Menu"});
+
+
     UI ui = new UI();
     Scanner in = new Scanner(System.in);
 
@@ -17,34 +31,11 @@ public class Output {
         System.out.print(message);
     }
 
-    public void createNewVehicle() {
-        System.out.println("\nYou've selected to Create new Vehicle:");
-        String brand;
-        String model;
-        String fuelType;
-        String registrationNumber;
-        String registrationYear;
-        String type;
-        String isRentedChoice;
-        int odometer;
+    public void createNewVehicle(String isRentedChoice, int odometer) {
         boolean approvedChoice = false;
         boolean isRented = false;
 
-        System.out.print("\nEnter Brand of Vehicle: ");
-        brand = in.nextLine();
-        System.out.print("\nEnter Model of Vehicle: ");
-        model = in.nextLine();
-        System.out.print("\nEnter Fuel Type of Vehicle: ");
-        fuelType = in.nextLine();
-        System.out.print("\nEnter the Registration Number of the Vehichle: ");
-        registrationNumber = in.nextLine();
-        System.out.print("\nEnter Registration Year of Vehicle: ");
-        registrationYear = in.nextLine();
-        System.out.println("\nEnter the amount of KM on the Vehicle: ");
-        odometer = in.nextInt();
-        in.nextLine();
-        System.out.print("\nEnter Type of Vehicle: ");
-        type = in.nextLine();
+
         System.out.print("\nIs Car already rented? (Yes)(No): ");
         isRentedChoice = in.nextLine();
         isRentedChoice = isRentedChoice.toLowerCase();
@@ -63,8 +54,7 @@ public class Output {
             }
         }
 
-        Car car = new Car(brand, model, fuelType, registrationNumber, registrationYear, odometer, type, isRented);
-        // Send car to DB
+
     }
 
     public void createRentalAgreement() {
@@ -106,7 +96,44 @@ public class Output {
     }
 
     public void printCars(String cars){
-        System.out.println("Registration Number\t Model\t Brand\t Registration Year\t Fuel Type\t Car Type\t Odometer\t Available");
+        System.out.println("Registration Number\t Model\t Brand\t Registration Year\t Fuel Type\t Car Type\t Odometer\t Rented");
         System.out.println(cars);
+    }
+
+    public void printCustomers(String customers){
+        System.out.println("Driver License Number\t Name\t Mobile Number\t Phone Number\t Email\t " +
+                "Driver Since Date\t Address\t ZIP\t City");
+        System.out.println(customers);
+    }
+
+    public String[] carInfo(){
+        //todo make better scanner check
+        String[] carInfo = new String[8];
+
+        System.out.println("CREATE CAR");
+
+        System.out.print("\nEnter Brand of Vehicle: ");
+        carInfo[0] = in.nextLine();
+        System.out.print("\nEnter Model of Vehicle: ");
+        carInfo[1] = in.nextLine();
+        System.out.print("\nEnter Fuel Type of Vehicle: ");
+        carInfo[2] = in.nextLine();
+        System.out.print("\nEnter the Registration Number of the Vehichle: ");
+        carInfo[3] = in.nextLine();
+        System.out.print("\nEnter Registration Year of Vehicle: ");
+        carInfo[4] = in.nextLine() + "-01-01";
+        System.out.println("\nEnter the amount of KM on the Vehicle: ");
+        carInfo[5] = ""+in.nextInt();
+        in.nextLine();
+        System.out.print("\nEnter Type of Vehicle: ");
+        carInfo[6] = in.nextLine();
+        System.out.print("\nIs Car already rented? (Yes)(No): ");
+        String rentChoice = in.nextLine();
+        while (!rentChoice.equalsIgnoreCase("yes") && !rentChoice.equalsIgnoreCase("no")){
+            System.out.print("Please input either Yes or No: ");
+            rentChoice = in.nextLine();
+        }
+        carInfo[7] = rentChoice;
+        return carInfo;
     }
 }

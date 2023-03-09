@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class UI {
     Scanner in = new Scanner(System.in);
-    Output op = new Output();
     public int readChoiceInt() {
         boolean validChoice = false;
         int choice = -1;
@@ -15,7 +14,8 @@ public class UI {
                 in.nextLine();
                 validChoice = true;
             } else {
-                op.printLine("Please choose an option\n");
+                //todo maybe take out this sout
+                System.out.println("Please choose an option\n");
                 in.nextLine();
             }
         } while (!validChoice);
@@ -35,7 +35,8 @@ public class UI {
     }
 
     public String readDate() {
-        Output op = new Output();
+        //todo change so Output does not have to be here
+        Input_Output op = new Input_Output();
         boolean approvedDate = false, approvedMonth = false, approvedYear = false;
         int day = -1, month = -1, year = -1, choice;
         while (!approvedDate) {
@@ -62,7 +63,7 @@ public class UI {
             op.print("Enter year: ");
             choice = readChoiceInt();
             op.print("\n");
-            if (choice < 9999 && choice > 2022) {
+            if (choice < 9999 && choice > 1950) {
                 year = choice;
                 approvedYear = true;
             } else

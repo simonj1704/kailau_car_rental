@@ -12,12 +12,13 @@ public class DBHandler {
     /**
      * Selects all data from customer table and prints it out
      */
-    public void queryCustomer(){
+    public String queryCustomers(){
+        StringBuilder customers = new StringBuilder();
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
             String sql = "SELECT driver_license_number, customer_name, mobile_phone_number, phone_number, " +
-                    "email_address, driver_since_date, address " +
+                    "email_address, driver_since_date, address, city_zip, city_name " +
                     "FROM customers " +
                     "JOIN address " +
                     "USING(address) " +
@@ -27,11 +28,11 @@ public class DBHandler {
             ResultSet rs = s.executeQuery(sql);
 
             while(rs.next()){
-                System.out.println(rs.getInt(1) + " " + rs.getString(2)+
-                        " " + rs.getString(3) + " " + rs.getString(4) +
-                        " " + rs.getString(5) + " " + rs.getDate(6) +
-                        " " + rs.getString(7) + " " + rs.getInt(8) +
-                        " " + rs.getString(9));
+                customers.append(rs.getInt(1)).append(" ").append(rs.getString(2))
+                        .append(" ").append(rs.getString(3)).append(" ").append(rs.getString(4))
+                        .append(" ").append(rs.getString(5)).append(" ").append(rs.getDate(6))
+                        .append(" ").append(rs.getString(7)).append(" ").append(rs.getInt(8))
+                        .append(" ").append(rs.getString(9));
             }
 
             con.close();
@@ -39,6 +40,7 @@ public class DBHandler {
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
+        return customers.toString();
     }
 
     /**
@@ -71,8 +73,8 @@ public class DBHandler {
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
-            String sql = "SELECT registration_number, registration_year, odometer, available, " +
-                    "model_name, fuel_type, car_type, brand_name " +
+            String sql = "SELECT registration_number, model_name, brand_name, YEAR(registration_year), " +
+                    "fuel_type, car_type, odometer, rented " +
                     " FROM cars " +
                     "JOIN model " +
                     "USING (model_id) " +
@@ -81,11 +83,15 @@ public class DBHandler {
             ResultSet rs = s.executeQuery(sql);
 
             while(rs.next()){
-                cars.append(rs.getString(1)).append(" ").append(rs.getDate(2)).append(" ").
-                        append(rs.getInt(3)).append(" ").append(rs.getInt(4)).append(" ").
+                cars.append(rs.getString(1)).append(" ").append(rs.getString(2)).append(" ").
+                        append(rs.getString(3)).append(" ").append(rs.getInt(4)).append(" ").
                         append(rs.getString(5)).append(" ").append(rs.getString(6)).
-                        append(" ").append(rs.getString(7)).append(" ").append(rs.getString(8)).
-                        append("\n");
+                        append(" ").append(rs.getInt(7)).append(" ");
+                if (rs.getString(8).equals("1")){
+                    cars.append("YES").append("\n");
+                } else {
+                    cars.append("NO").append("\n");
+                }
             }
 
             con.close();
@@ -170,7 +176,7 @@ public class DBHandler {
         try {
             con  = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
-            String sql = "INSERT IGNORE INTO cars(registration_number, registration_year, odometer, available, model_id) " +
+            String sql = "INSERT IGNORE INTO cars(registration_number, registration_year, odometer, rented, model_id) " +
                     "VALUES ('" + car.getRegistrationNumber() + "','" + car.getRegistrationYear() + "'," +
                     car.getOdometer() + "," + car.isRented() + ", (SELECT model_id FROM model WHERE model_name = '" + car.getModel() + "'));";
             String sql2 = "INSERT INTO brands(brand_id, brand_name) " +
@@ -221,11 +227,7 @@ public class DBHandler {
     public static void main(String[] args) {
         DBHandler dbHandler = new DBHandler();
 
-        /*dbHandler.queryCustomer();
         dbHandler.queryRentalContracts();
-        dbHandler.addCarDatabase(new Car("Mercedes", "E250", "Diesel", "AF23124", "2003-02-01", 12322, "Luxury", false));
-        */
         dbHandler.addRentalDatabase(new Rental("2000-9-12", "2000-10-11", 23235564, 103, 200, "AX63648"));
-        dbHandler.queryCar();
     }
 }

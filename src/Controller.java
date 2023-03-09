@@ -1,5 +1,6 @@
 package src;
 
+import src.entities.Car;
 import src.entities.Customer;
 
 import java.util.Scanner;
@@ -7,31 +8,35 @@ import java.util.Scanner;
 public class Controller {
     Customer customer;
     DBHandler dbHandler = new DBHandler();
-    Output output = new Output();
+    Input_Output inputOutput = new Input_Output();
+    UI ui = new UI();
+    boolean keepRunning = true;
     public static void main(String[] args) {
         new Controller().run();
     }
 
     public void run() {
-        int choice;
-        output.menu.printMenu();
-        choice = output.ui.readChoiceInt();
 
-        switch (choice) {
-            case 1:
-                System.out.println("You've selected: New Rental Contract.");
-                output.createRentalAgreement();
-                break;
-            case 2:
-                System.out.println("You've selected: Add new Vehicle. ");
-                output.createNewVehicle();
-                break;
-            case 3:
-                System.out.println("You've selected: Add new Customer.");
-                // WIP
-                break;
+
+        getAllCars();
+        while (keepRunning) {
+            inputOutput.menu.printMenu();
+            menuSwitch(ui.readChoiceInt());
+        }
+
+    }
+
+    public void menuSwitch(int choice){
+        switch (choice){
+            //case 1 -> createRentalAgreement();
+            case 2 -> createCar();
+            case 3 -> createCustomer();
+            case 4 -> getAllCars();
+            case 5 -> getAllCustomers();
+            case 9 -> keepRunning = false;
         }
     }
+
     public void createCustomer(){
 
         Scanner in = new Scanner(System.in);
@@ -79,7 +84,27 @@ public class Controller {
         return  searchParameter;
     }
     public void getAllCars(){
-        output.printCars(dbHandler.queryCar());
+        inputOutput.printCars(dbHandler.queryCar());
     }
+
+    public void getAllCustomers(){
+        inputOutput.printCustomers(dbHandler.queryCustomers());
+    }
+    public String getString(){
+        return ui.readString();
+    }
+
+    public void createCar(){
+        String[] carInfo = inputOutput.carInfo();
+        boolean isRented = false;
+        if (carInfo[7].equalsIgnoreCase("yes")){
+            isRented = true;
+        }
+
+        dbHandler.addCarDatabase(new Car(carInfo[0], carInfo[1], carInfo[2],
+                carInfo[3], carInfo[4], Integer.parseInt(carInfo[5]), carInfo[6], isRented));
+    }
+
+
 }
 
