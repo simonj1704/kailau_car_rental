@@ -8,7 +8,8 @@ import java.util.Scanner;
 public class Input_Output {
     Menu menu = new Menu("---[Kailau Car Rental]---", "Make your choice: ", new String[]
             {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. View Car",
-                    "5. View Customers", "6. View Rental Agreements", "7. Delete Car", "8. Delete "});
+                    "5. View Customers", "6. View Rental Agreements", "7. Search for customer", "8. Delete Customer ",
+                    "9. Delete car", "10. End program"});
 
     Menu mainMenu = new Menu("---[Kailau Car Rental]---", "Make your choice: ", new String[]
             {"1. Create Menu", "2. Update Menu", "3. Delete Menu", "4. View Menu", "5. Search Menu",
@@ -124,6 +125,49 @@ public class Input_Output {
         }
         carInfo[7] = rentChoice;
         return carInfo;
+    }
+
+    public String deleteCustomerInfo() {
+        System.out.println("Please enter customer drivers license:");
+        String searchParameter = in.nextLine();
+        return searchParameter;
+    }
+
+    public String[] customerInfo() {
+        String[] customerInfo = new String[9];
+
+        System.out.println("Enter customer name:");
+        customerInfo[0] = in.nextLine();
+        System.out.println("Enter customer address:");
+        customerInfo[1] = in.nextLine();
+        System.out.println("Enter customer zip code");
+        customerInfo[2] = in.nextLine();
+        System.out.println("Enter customer city");
+        customerInfo[3] = in.nextLine();
+        System.out.println("Enter customer mobile number");
+        customerInfo[4] = in.nextLine();
+        System.out.println("Enter customer phone number");
+        customerInfo[5] = in.nextLine();
+        System.out.println("Enter customer e-mail:");
+        customerInfo[6] = in.nextLine();
+        System.out.println("Enter customer drivers license number");
+        customerInfo[7] = in.nextLine();
+        System.out.println("Enter 'driver since date' in the format of YYYY-MM-DD");
+        customerInfo[8] = ui.readDate();
+
+        return customerInfo;
+    }
+
+    public String specificCustomerInfo() {
+        System.out.println("Please enter search parameter: (Part of name, drivers license number etc.");
+        String searchParameter = in.nextLine();
+        return searchParameter;
+    }
+
+    public String deleteCarInfo() {
+        System.out.println("Please enter car registration number:");
+        String searchParameter = in.nextLine();
+        return searchParameter;
     }
 
     public void printCars(ArrayList<Car> cars) {
