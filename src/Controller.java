@@ -18,20 +18,24 @@ public class Controller {
     public void run() {
 
         while (keepRunning) {
-            mainMenu();
+            inputOutput.menu.printMenu();
+            menuSwitch(ui.readChoiceInt());
         }
 
     }
 
-    public void menuSwitch(int choice){
-        switch (choice){
+    public void menuSwitch(int choice) {
+        switch (choice) {
             case 1 -> createRentalAgreement();
             case 2 -> createCar();
             case 3 -> createCustomer();
             case 4 -> getAllCars();
             case 5 -> getAllCustomers();
             case 6 -> getAllRentalAgreements();
-            case 9 -> keepRunning = false;
+            case 7 -> searchSpecificCustomer();
+            case 8 -> deleteCustomer();
+            case 9 -> deleteCar();
+            case 10 -> keepRunning = false;
         }
     }
 
@@ -117,51 +121,35 @@ public class Controller {
         }
     }
 
-    public void createCustomer(){
-
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter customer name:");
-        String name = in.nextLine();
-        System.out.println("Enter customer address:");
-        String address = in.nextLine();
-        System.out.println("Enter customer zip code");
-        String zipCode = in.nextLine();
-        System.out.println("Enter customer city");
-        String city = in.nextLine();
-        System.out.println("Enter customer mobile number");
-        String mobileNumber = in.nextLine();
-        System.out.println("Enter customer phone number");
-        String phoneNumber = in.nextLine();
-        System.out.println("Enter customer e-mail:");
-        String emailAddress = in.nextLine();
-        System.out.println("Enter customer drivers license number");
-        String driversLicenseNumber = in.nextLine();
-        System.out.println("Enter 'driver since date' in the format of YYYY-MM-DD");
-        String driverSinceDate = in.nextLine();
-
-        new Customer(name,address,zipCode,city,mobileNumber,phoneNumber,emailAddress,driversLicenseNumber, driverSinceDate);
+    /**
+     * Uses customerInfo method from InputOutput class, to create a customer using addCustomerToDatabase method from dbHandler class
+     */
+    public void createCustomer() {
+        String[] customerInfo = inputOutput.customerInfo();
+        dbHandler.addCustomerToDatabase(new Customer(customerInfo[0], customerInfo[1], customerInfo[2], customerInfo[3],
+                customerInfo[4], customerInfo[5], customerInfo[6], customerInfo[7], customerInfo[8]));
     }
 
     /**
      * returns search parameter for querySpecificCustomer method
+     *
      * @return
      */
-    public String searchSpecificCustomer(){
-        Scanner in = new Scanner(System.in);
-        System.out.println("Please enter search parameter: (Part of name, drivers license number etc.");
-        String searchParameter = in.nextLine();
-        return searchParameter;
+    public void searchSpecificCustomer() {
+        dbHandler.querySpecificCustomer(inputOutput.specificCustomerInfo());
     }
 
     /**
      * returns search parameter for deleteCustomerFromDatabase method
+     *
      * @return
      */
-    public String deleteCustomer(){
-        Scanner in = new Scanner(System.in);
-        System.out.println("Please enter customer drivers license:");
-        String searchParameter = in.nextLine();
-        return  searchParameter;
+    public void deleteCustomer() {
+        dbHandler.deleteCustomerFromDatabase(inputOutput.deleteCustomerInfo());
+    }
+
+    public void deleteCar() {
+        dbHandler.deleteCarFromDatabase(inputOutput.deleteCarInfo());
     }
 
     public void createCar(){
