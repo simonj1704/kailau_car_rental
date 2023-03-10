@@ -7,7 +7,6 @@ import src.entities.Rental;
 import java.util.Scanner;
 
 public class Controller {
-    Customer customer;
     DBHandler dbHandler = new DBHandler();
     Input_Output inputOutput = new Input_Output();
     UI ui = new UI();
@@ -18,8 +17,6 @@ public class Controller {
 
     public void run() {
 
-
-        getAllCars();
         while (keepRunning) {
             inputOutput.menu.printMenu();
             menuSwitch(ui.readChoiceInt());
@@ -36,6 +33,12 @@ public class Controller {
             case 5 -> getAllCustomers();
             case 6 -> getAllRentalAgreements();
             case 9 -> keepRunning = false;
+        }
+    }
+
+    public void viewMenu(int choice){
+        switch (choice){
+            case 1 -> getAllCars();
         }
     }
 

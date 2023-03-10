@@ -4,6 +4,7 @@ import src.entities.Customer;
 import src.entities.Rental;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DBHandler {
@@ -44,6 +45,63 @@ public class DBHandler {
     }
 
     /**
+     * Selects all data from customer tables with given search parameter and prints it
+     * @param searchParameter Driver License Number
+     */
+    public void querySpecificCustomer(String searchParameter){
+        try {
+            con = DriverManager.getConnection(database_url,"root", "password");
+            Statement s = con.createStatement();
+            String sql = "SELECT driver_license_number, customer_name, mobile_phone_number, phone_number," +
+                    "email_address, driver_since_date, address, city_zip, city_name " +
+                    "FROM customers " +
+                    "INNER JOIN address " +
+                    "USING(address) " +
+                    "INNER JOIN city " +
+                    "USING(city_zip) " +
+                    "WHERE driver_license_number " +
+                    "LIKE " + "%" + searchParameter + "%";
+            ResultSet rs = s.executeQuery(sql);
+            while (rs.next()){
+                System.out.println(rs.getInt(1) + " " + rs.getString(2)+
+                        " " + rs.getString(3) + " " + rs.getString(4) +
+                        " " + rs.getString(5) + " " + rs.getDate(6) +
+                        " " + rs.getString(7) + " " + rs.getInt(8) +
+                        " " + rs.getString(9));
+            }
+            int rows = 0;
+            rows += s.executeUpdate(sql);
+            System.out.println("Rows affected: " + rows);
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
+    }
+
+    /**
+     * deletes a customer from the database through a subquery in address table cascading on address column
+     * using driver license number as search parameter
+     * @param searchParameter Driver license number
+     */
+    public void deleteCustomerFromDatabase(String searchParameter){
+        try {
+            con = DriverManager.getConnection(database_url, "root", "password");
+            Statement s = con.createStatement();
+            String sql = "DELETE FROM address " +
+                    "WHERE address " +
+                    " = (SELECT address FROM customers WHERE driver_license_number) = " + searchParameter + ")";
+            s.executeUpdate(sql);
+            int rows = 0;
+            rows += s.executeUpdate(sql);
+            System.out.println("Rows affected: " + rows);
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
+    }
+
+    /**
      * Selects all data from brands table and prints it out
      */
     public void queryBrands() {
@@ -68,8 +126,8 @@ public class DBHandler {
     /**
      * Selects all data from car table and prints it out
      */
-    public String queryCar() {
-        StringBuilder cars = new StringBuilder();
+    public ArrayList<Car> queryCar() {
+        ArrayList<Car> cars = new ArrayList<>();
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
@@ -83,15 +141,9 @@ public class DBHandler {
             ResultSet rs = s.executeQuery(sql);
 
             while(rs.next()){
-                cars.append(rs.getString(1)).append(" ").append(rs.getString(2)).append(" ").
-                        append(rs.getString(3)).append(" ").append(rs.getInt(4)).append(" ").
-                        append(rs.getString(5)).append(" ").append(rs.getString(6)).
-                        append(" ").append(rs.getInt(7)).append("Km ");
-                if (rs.getString(8).equals("1")){
-                    cars.append("YES").append("\n");
-                } else {
-                    cars.append("NO").append("\n");
-                }
+                cars.add(new Car(rs.getString(3),rs.getString(2),rs.getString(5),
+                        rs.getString(1), rs.getString(4), rs.getInt(7),
+                        rs.getString(6),rs.getBoolean(8)));
             }
 
             con.close();
@@ -99,7 +151,7 @@ public class DBHandler {
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
-        return cars.toString();
+        return cars;
     }
 
 
@@ -129,41 +181,30 @@ public class DBHandler {
         return contracts.toString();
     }
 
-    public void addCustomer(){
+    /**
+     * adds a customer to the kailau database using a customer object
+     * @param customer to be added to database
+     */
+    public void addCustomerToDatabase(Customer customer){
         try {
-            Customer customer;
-            Scanner in = new Scanner(System.in);
-            System.out.println("Enter customer name:");
-            String name = in.nextLine();
-            System.out.println("Enter customer address:");
-            String address = in.nextLine();
-            System.out.println("Enter customer zip code");
-            String zipCode = in.nextLine();
-            System.out.println("Enter customer city");
-            String city = in.nextLine();
-            System.out.println("Enter customer mobile number");
-            String mobileNumber = in.nextLine();
-            System.out.println("Enter customer phone number");
-            String phoneNumber = in.nextLine();
-            System.out.println("Enter customer e-mail:");
-            String emailAddress = in.nextLine();
-            System.out.println("Enter customer drivers license number");
-            String driversLicenseNumber = in.nextLine();
-            System.out.println("Enter 'driver since date' in the format of YYYY-MM-DD");
-            String driverSinceDate = in.nextLine();
-
-            new Customer(name,address,zipCode,city,mobileNumber,phoneNumber,emailAddress,driversLicenseNumber, driverSinceDate);
-
             con = DriverManager.getConnection(database_url, "root", "sesame80");
             Statement s = con.createStatement();
-            String sql = "INSERT INTO customers (driver_license_number, customer_name, mobile_phone_number, phone_number, email_address, driver_since_date, address)" +
-                    "VALUES(" + driversLicenseNumber + ",'" + name + "','"+ mobileNumber + "','" + phoneNumber + "','" +
-                    emailAddress + "','" + driverSinceDate + "','" + address + "')";
-            String sql2 = "INSERT INTO address (address,city_zip) " + "VALUES('" + address + "'," + zipCode +")";
-            String sql3 = "INSERT INTO city (city_zip, city_name)" + "VALUES(" + zipCode + ",'" + city + "')";
+            String sql = "INSERT IGNORE INTO customers (driver_license_number, customer_name, mobile_phone_number, phone_number," +
+                    " email_address, driver_since_date, address)" +
+                    "VALUES(" + customer.getDriversLicenseNumber() + ",'" + customer.getName() + "','" +
+                    customer.getMobileNumber() + "','" + customer.getMobileNumber() + "','" + customer.getPhoneNumber() +
+                    "','" + customer.getDriverSinceDate() + "','" + customer.getAddress() + "')";
+            String sql2 = "INSERT IGNORE INTO address (address,city_zip) " + "VALUES('" + customer.getAddress() + "'," + customer.getZipCode() +")";
+            String sql3 = "INSERT IGNORE INTO city (city_zip, city_name)" + "VALUES(" + customer.getZipCode() + ",'" + customer.getCity()+ "')";
             s.executeUpdate(sql3);
             s.executeUpdate(sql2);
             s.executeUpdate(sql);
+            int rows = 0;
+            rows += s.executeUpdate(sql2);
+            rows += s.executeUpdate(sql3);
+            rows += s.executeUpdate(sql);
+            System.out.println("Rows affected: " + rows);
+            con.close();
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
