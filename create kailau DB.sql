@@ -67,6 +67,7 @@ registration_number 	VARCHAR(45),
 FOREIGN KEY (driver_license_number)	REFERENCES customers(driver_license_number)
 ON DELETE CASCADE,
 FOREIGN KEY (registration_number)	REFERENCES	cars(registration_number)
+ON DELETE CASCADE
 );
 
 
