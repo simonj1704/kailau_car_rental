@@ -45,31 +45,6 @@ public class Input_Output {
         System.out.print(message);
     }
 
-    public void createNewVehicle(String isRentedChoice, int odometer) {
-        boolean approvedChoice = false;
-        boolean isRented = false;
-
-
-        System.out.print("\nIs Car already rented? (Yes)(No): ");
-        isRentedChoice = in.nextLine();
-        isRentedChoice = isRentedChoice.toLowerCase();
-
-        while (!approvedChoice) {
-            if (isRentedChoice.equals("yes") || isRentedChoice.equals("no")) {
-                if (isRentedChoice.equals("yes")) {
-                    isRented = true;
-                    approvedChoice = true;
-                } else if (isRentedChoice.equals("no")) {
-                    isRented = false;
-                    approvedChoice = true;
-                } else {
-                    System.out.println("Unknown Input, try again (Yes or No)");
-                }
-            }
-        }
-
-
-    }
 
     public String[] rentalAgreementInfo() {
         String[] rentalInfo = new String[6];
@@ -132,8 +107,7 @@ public class Input_Output {
 
     public String deleteCustomerInfo() {
         System.out.println("Please enter customer drivers license:");
-        String searchParameter = in.nextLine();
-        return searchParameter;
+        return in.nextLine();
     }
 
     public String[] customerInfo() {
@@ -163,14 +137,12 @@ public class Input_Output {
 
     public String specificCustomerInfo() {
         System.out.println("Please enter search parameter: (Part of name, drivers license number etc.");
-        String searchParameter = in.nextLine();
-        return searchParameter;
+        return in.nextLine();
     }
 
     public String deleteCarInfo() {
         System.out.println("Please enter car registration number:");
-        String searchParameter = in.nextLine();
-        return searchParameter;
+        return in.nextLine();
     }
     public void printCars(ArrayList<Car> cars) {
         System.out.printf("%-10s\t %-10s\t %-10s\t %-8s\t %-9s\t %-8s\t %-7s\t %s\n",
