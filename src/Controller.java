@@ -18,8 +18,7 @@ public class Controller {
     public void run() {
 
         while (keepRunning) {
-            inputOutput.menu.printMenu();
-            menuSwitch(ui.readChoiceInt());
+            mainMenu();
         }
 
     }
@@ -36,9 +35,85 @@ public class Controller {
         }
     }
 
-    public void viewMenu(int choice){
-        switch (choice){
-            case 1 -> getAllCars();
+    public void viewMenu(){
+        inputOutput.viewMenu.printMenu();
+        switch (ui.readChoiceInt()){
+            case 1 -> getAllRentalAgreements();
+            case 2 -> getAllCars();
+            case 3 -> getAllCustomers();
+            case 4 -> createMenu();
+            case 5 -> updateMenu();
+            case 6 -> deleteMenu();
+            case 7 -> searchMenu();
+            case 9 -> mainMenu();
+        }
+    }
+
+    public void createMenu(){
+        inputOutput.createMenu.printMenu();
+        switch (ui.readChoiceInt()){
+            case 1 -> createRentalAgreement();
+            case 2 -> createCar();
+            case 3 -> createCustomer();
+            case 4 -> updateMenu();
+            case 5 -> deleteMenu();
+            case 6 -> viewMenu();
+            case 7 -> searchMenu();
+            case 9 -> mainMenu();
+        }
+    }
+
+    public void updateMenu(){
+        inputOutput.updateMenu.printMenu();
+        switch (ui.readChoiceInt()){
+            case 1 -> getAllRentalAgreements();
+            case 2 -> getAllCars();
+            case 3 -> getAllCustomers();
+            case 4 -> createMenu();
+            case 5 -> deleteMenu();
+            case 6 -> viewMenu();
+            case 7 -> searchMenu();
+            case 9 -> mainMenu();
+        }
+    }
+
+    public void deleteMenu(){
+        inputOutput.deleteMenu.printMenu();
+        switch (ui.readChoiceInt()){
+            case 1 -> getAllRentalAgreements();
+            case 2 -> getAllCars();
+            case 3 -> getAllCustomers();
+            case 4 -> createMenu();
+            case 5 -> updateMenu();
+            case 6 -> viewMenu();
+            case 7 -> searchMenu();
+            case 9 -> mainMenu();
+        }
+    }
+
+    public void searchMenu(){
+        inputOutput.searchMenu.printMenu();
+        switch (ui.readChoiceInt()){
+            case 1 -> getAllRentalAgreements();
+            case 2 -> getAllCars();
+            case 3 -> getAllCustomers();
+            case 4 -> createMenu();
+            case 5 -> updateMenu();
+            case 6 -> deleteMenu();
+            case 7 -> viewMenu();
+            case 9 -> mainMenu();
+        }
+    }
+
+    public void mainMenu(){
+        inputOutput.mainMenu.printMenu();
+        switch (ui.readChoiceInt()){
+            case 1 -> createMenu();
+            case 2 -> updateMenu();
+            case 3 -> deleteMenu();
+            case 4 -> viewMenu();
+            case 5 -> searchMenu();
+            case 9 -> keepRunning = false;
         }
     }
 

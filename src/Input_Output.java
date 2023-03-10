@@ -15,7 +15,7 @@ public class Input_Output {
                     "9. Exit Program"});
 
     Menu viewMenu = new Menu("---[View Menu]---", "Make your choice: ", new String[]
-            {"1. View Rental Contracts", "2. View Cars", "3. View Customers", "4. Create Menu",
+            {"1. View Rental Contracts", "2. View Vehicles", "3. View Customers", "4. Create Menu",
                     "5. Update Menu", "6. Delete Menu", "7. Search Menu", "9. Exit to Main Menu"});
 
     Menu createMenu = new Menu("---[Create Menu]---", "Make your choice: ", new String[]
@@ -23,12 +23,16 @@ public class Input_Output {
                     "5. Delete Menu", "6. View Menu", "7. Search Menu", "9. Exit to Menu"});
 
     Menu updateMenu = new Menu("---[Update Menu]---", "Make your choice: ", new String[]
-            {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. Create Menu",
+            {"1. Update Rental Contract", "2. Update Vehicle", "3. Update Customer", "4. Create Menu",
                     "5. Delete Menu", "6. View Menu", "7. Search Menu", "9. Exit to Menu"});
 
-    Menu deleteMenu = new Menu("---[Update Menu]---", "Make your choice: ", new String[]
-            {"1. New Rental Contract", "2. Add New Vehicle", "3. Add New Customer", "4. Create Menu",
+    Menu deleteMenu = new Menu("---[Delete Menu]---", "Make your choice: ", new String[]
+            {"1. Delete Rental Contract", "2. Delete Vehicle", "3. Delete Customer", "4. Create Menu",
                     "5. Delete Menu", "6. View Menu", "7. Search Menu", "9. Exit to Menu"});
+
+    Menu searchMenu = new Menu("---[Search Menu]---", "Make your choice: ", new String[]
+            {"1. Search Rental Contract", "2. Search Vehicle", "3. Search Customer", "4. Create Menu",
+                    "5. Update Menu", "6. Delete Menu", "7. View Menu", "9. Exit to Menu"});
 
     UI ui = new UI();
     Scanner in = new Scanner(System.in);
