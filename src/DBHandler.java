@@ -52,7 +52,7 @@ public class DBHandler {
     public ArrayList<Customer> querySpecificCustomer(String searchParameter) {
         ArrayList<Customer> specificCustomerList = new ArrayList<>();
         try {
-            con = DriverManager.getConnection(database_url, "root", "password");
+            con = DriverManager.getConnection(database_url, "root", "sesame80");
             Statement s = con.createStatement();
             String sql = "SELECT driver_license_number, customer_name, mobile_phone_number, phone_number," +
                     "email_address, driver_since_date, address, city_zip, city_name " +
@@ -62,17 +62,15 @@ public class DBHandler {
                     "INNER JOIN city " +
                     "USING(city_zip) " +
                     "WHERE driver_license_number " +
-                    "LIKE " + "%" + searchParameter + "%" +
-                    " OR customer_name LIKE '%" + searchParameter + "';";
+                    "LIKE " + "'%" + searchParameter + "%'" +
+                    " OR LOWER(customer_name) LIKE '%" + searchParameter + "%'";
             ResultSet rs = s.executeQuery(sql);
             while (rs.next()) {
-                specificCustomerList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3),
+                specificCustomerList.add(new Customer(rs.getString(1), rs.getString(2),
+                        rs.getString(3),
                         rs.getString(4), rs.getString(5), rs.getString(6),
                         rs.getString(7), rs.getString(8), rs.getString(9)));
             }
-            int rows = 0;
-            rows += s.executeUpdate(sql);
-            System.out.println("Rows affected: " + rows);
             con.close();
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
