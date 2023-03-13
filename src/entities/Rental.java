@@ -1,14 +1,29 @@
 package src.entities;
 
 public class Rental {
+    private int id;
     private String fromDate;
     private String toDate;
     private int driverLicenseNumber;
     private int maxKm;
     private int km;
     private String carRegistrationNumber;
+    private String customerName;
 
-    public Rental(String fromDate, String toDate, int driverLicenseNumber, int maxKm, int km, String carRegistrationNumber) {
+    public Rental(int id, String fromDate, String toDate, int driverLicenseNumber, String customerName,
+                  int maxKm, int km, String carRegistrationNumber) {
+        setFromDate(fromDate);
+        setToDate(toDate);
+        setDriverLicenseNumber(driverLicenseNumber);
+        setMaxKm(maxKm);
+        setKm(km);
+        setCarRegistrationNumber(carRegistrationNumber);
+        setCustomerName(customerName);
+        setId(id);
+    }
+
+    public Rental(String fromDate, String toDate, int driverLicenseNumber,
+                  int maxKm, int km, String carRegistrationNumber) {
         setFromDate(fromDate);
         setToDate(toDate);
         setDriverLicenseNumber(driverLicenseNumber);
@@ -47,6 +62,13 @@ public class Rental {
         return carRegistrationNumber;
     }
 
+    public String getCustomerName(){
+        return customerName;
+    }
+
+    public int getId(){
+        return id;
+    }
 
     // SETTERS
 
@@ -70,15 +92,23 @@ public class Rental {
         this.carRegistrationNumber = carRegistrationNumber;
     }
 
+    public void setCustomerName(String customerName){
+        this.customerName = customerName;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "Rental{" +
+        return "Rental{ rentalID=" + id +
                 ", fromDate='" + fromDate + '\'' +
                 ", toDate='" + toDate + '\'' +
                 ", driverLicenseNumber=" + driverLicenseNumber +
                 ", maxKm=" + maxKm +
                 ", km=" + km +
-                ", customerDriverLicenseNumber=" +
+                ", customerName= " + customerName +
                 ", carRegistrationNumber=" + carRegistrationNumber +
                 '}';
     }

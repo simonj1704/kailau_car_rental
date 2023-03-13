@@ -16,8 +16,7 @@ public class Controller {
     public void run() {
 
         while (keepRunning) {
-            inputOutput.menu.printMenu();
-            menuSwitch(ui.readChoiceInt());
+            mainMenu();
         }
 
     }
@@ -132,7 +131,7 @@ public class Controller {
      * Searches the database for specifik customer
      */
     public void searchSpecificCustomer() {
-        inputOutput.printCustomers(dbHandler.querySpecificCustomer(inputOutput.specificCustomerInfo()));
+        inputOutput.printCustomers(dbHandler.querySpecificCustomer(inputOutput.specificInfo()));
     }
 
     public void searchSpecificCar(){
@@ -140,6 +139,7 @@ public class Controller {
     }
 
     public void searchSpecificContract(){
+        inputOutput.printRentalAgreements(dbHandler.querySpecificRentalContract(inputOutput.specificInfo()));
         //todo create method
     }
 

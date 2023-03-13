@@ -79,33 +79,31 @@ public class DBHandler {
         }
         return specificCustomerList;
     }
-    public void querySpecificRentalContract(String searchParameter){
+    public ArrayList<Rental> querySpecificRentalContract(String searchParameter){
         ArrayList<Rental> specificRentalContracts = new ArrayList<>();
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
-            String sql = "SELECT id_rental_contract, from_date, mobile_phone_number, phone_number," +
-                    "email_address, driver_since_date, address, city_zip, city_name " +
-                    "FROM customers " +
-                    "INNER JOIN address " +
-                    "USING(address) " +
-                    "INNER JOIN city " +
-                    "USING(city_zip) " +
+            String sql = "SELECT id_rental_contract, from_date, to_date, max_km, km_on_start, " +
+                    " driver_license_number, customer_name, registration_number " +
+                    "FROM rental_contracts " +
+                    "INNER JOIN customers " +
+                    "USING(driver_license_number) " +
                     "WHERE driver_license_number " +
-                    "LIKE " + "%" + searchParameter + "%";
+                    "LIKE '%" + searchParameter + "%' " +
+                    "OR registration_number LIKE '%" + searchParameter + "%' " +
+                    "OR id_rental_contract LIKE '%" + searchParameter + "%';";
             ResultSet rs = s.executeQuery(sql);
             while (rs.next()) {
-                specificRentalContracts.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getString(6),
-                        rs.getString(7), rs.getString(8), rs.getString(9)));
+                specificRentalContracts.add(new Rental(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(6),
+                        rs.getString(7), rs.getInt(4), rs.getInt(5), rs.getString(8)));
             }
-            int rows = 0;
-            rows += s.executeUpdate(sql);
-            System.out.println("Rows affected: " + rows);
+
             con.close();
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
-
+        }
+        return specificRentalContracts;
     }
 
     /**
@@ -189,19 +187,21 @@ public class DBHandler {
     /**
      * Selects all data from rental contracts and prints it out
      */
-    public String queryRentalContracts() {
-        StringBuilder contracts = new StringBuilder();
+    public ArrayList<Rental> queryRentalContracts() {
+        ArrayList<Rental> rentalList = new ArrayList<>();
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
-            String sql = "SELECT * FROM rental_contracts;";
+            String sql = "SELECT id_rental_contract, from_date, to_date, max_km, km_on_start, " +
+                    " driver_license_number, customer_name, registration_number " +
+                    "FROM rental_contracts " +
+                    "INNER JOIN customers " +
+                    "USING(driver_license_number);";
             ResultSet rs = s.executeQuery(sql);
 
             while (rs.next()) {
-                contracts.append(rs.getInt(1)).append(" ").append(rs.getDate(2)).
-                        append(" ").append(rs.getDate(3)).append(" ").append(rs.getInt(4)).
-                        append("Km ").append(rs.getInt(5)).append("Km ").append(rs.getInt(6)).
-                        append(" ").append(rs.getString(7) + "\n");
+                rentalList.add(new Rental(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(6),
+                        rs.getString(7), rs.getInt(4), rs.getInt(5), rs.getString(8)));
             }
 
             con.close();
@@ -209,7 +209,7 @@ public class DBHandler {
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
-        return contracts.toString();
+        return rentalList;
     }
 
     /**
@@ -320,11 +320,4 @@ public class DBHandler {
 
     }
 
-    public static void main(String[] args) {
-        DBHandler dbHandler = new DBHandler();
-
-        dbHandler.queryRentalContracts();
-        dbHandler.addRentalDatabase(new Rental("2000-9-12", "2000-10-11",
-                23235564, 103, 200, "AX63648"));
-    }
 }

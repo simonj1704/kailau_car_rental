@@ -2,6 +2,7 @@ package src;
 
 import src.entities.Car;
 import src.entities.Customer;
+import src.entities.Rental;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -144,12 +145,7 @@ public class Input_Output {
      * returns search parameter for querySpecificCustomer method
      * @return search parameter
      */
-    public String specificCustomerInfo() {
-        System.out.println("Please enter search parameter: (Part of name, drivers license number etc.");
-        return in.nextLine();
-    }
-
-    public String specificCarInfo(){
+    public String specificInfo() {
         System.out.println("Please enter search parameter: (Part of name, drivers license number etc.");
         return in.nextLine();
     }
@@ -173,14 +169,16 @@ public class Input_Output {
         System.out.println("Driver License Number\t Name\t Mobile Number\t Phone Number\t Email\t " +
                 "Driver Since Date\t Address\t ZIP\t City");
         for (int i = 0; i < customers.size(); i++) {
-            
+            System.out.println(customers.get(i));
         }
     }
 
-    public void printRentalAgreements(String contracts) {
+    public void printRentalAgreements(ArrayList<Rental> contracts) {
         System.out.println("ID\t From Date\t To Date\t Max Km\t Km on Car\t " +
-                "Driver License number\t Registration Number");
-        System.out.println(contracts);
+                "Driver License number\t Customer Name\t Registration Number");
+        for (int i = 0; i < contracts.size(); i++) {
+            System.out.println(contracts.get(i));
+        }
     }
 
 
