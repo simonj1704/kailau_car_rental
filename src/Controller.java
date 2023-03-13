@@ -70,9 +70,9 @@ public class Controller {
     public void updateMenu(){
         inputOutput.updateMenu.printMenu();
         switch (ui.readChoiceInt()){
-            case 1 -> getAllRentalAgreements();
-            case 2 -> getAllCars();
-            case 3 -> getAllCustomers();
+            case 1 -> updateContract();
+            case 2 -> updateCar();
+            case 3 -> updateCustomer();
             case 4 -> createMenu();
             case 5 -> deleteMenu();
             case 6 -> viewMenu();
@@ -84,9 +84,9 @@ public class Controller {
     public void deleteMenu(){
         inputOutput.deleteMenu.printMenu();
         switch (ui.readChoiceInt()){
-            case 1 -> getAllRentalAgreements();
-            case 2 -> getAllCars();
-            case 3 -> getAllCustomers();
+            case 1 -> deleteContract();
+            case 2 -> deleteCar();
+            case 3 -> deleteCustomer();
             case 4 -> createMenu();
             case 5 -> updateMenu();
             case 6 -> viewMenu();
@@ -98,9 +98,9 @@ public class Controller {
     public void searchMenu(){
         inputOutput.searchMenu.printMenu();
         switch (ui.readChoiceInt()){
-            case 1 -> getAllRentalAgreements();
-            case 2 -> getAllCars();
-            case 3 -> getAllCustomers();
+            case 1 -> searchSpecificContract();
+            case 2 -> searchSpecificCar();
+            case 3 -> searchSpecificCustomer();
             case 4 -> createMenu();
             case 5 -> updateMenu();
             case 6 -> deleteMenu();
@@ -131,18 +131,22 @@ public class Controller {
     }
 
     /**
-     * returns search parameter for querySpecificCustomer method
-     *
-     * @return
+     * Searches the database for specifik customer
      */
     public void searchSpecificCustomer() {
         dbHandler.querySpecificCustomer(inputOutput.specificCustomerInfo());
     }
 
+    public void searchSpecificCar(){
+        //todo create method
+    }
+
+    public void searchSpecificContract(){
+        //todo create method
+    }
+
     /**
-     * returns search parameter for deleteCustomerFromDatabase method
-     *
-     * @return
+     * Method for deleting customer
      */
     public void deleteCustomer() {
         dbHandler.deleteCustomerFromDatabase(inputOutput.deleteCustomerInfo());
@@ -150,6 +154,23 @@ public class Controller {
 
     public void deleteCar() {
         dbHandler.deleteCarFromDatabase(inputOutput.deleteCarInfo());
+        //todo create additional table for storing rental Contracts
+    }
+
+    public void deleteContract(){
+        //todo create method
+    }
+
+    public void updateContract(){
+        //todo create method
+    }
+
+    public void updateCar(){
+        //todo create method
+    }
+
+    public void updateCustomer(){
+        //todo create method
     }
 
     public void createCar(){

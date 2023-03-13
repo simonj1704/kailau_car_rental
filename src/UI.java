@@ -14,7 +14,6 @@ public class UI {
                 in.nextLine();
                 validChoice = true;
             } else {
-                //todo maybe take out this sout
                 System.out.println("Please choose an option\n");
                 in.nextLine();
             }
@@ -35,7 +34,6 @@ public class UI {
     }
 
     public String readDate() {
-        //todo change so Output does not have to be here
         Input_Output op = new Input_Output();
         boolean approvedDate = false, approvedMonth = false, approvedYear = false;
         int day = -1, month = -1, year = -1, choice;
