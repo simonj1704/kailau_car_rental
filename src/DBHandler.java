@@ -254,7 +254,8 @@ public class DBHandler {
             Statement s = con.createStatement();
             String sql = "INSERT IGNORE INTO cars(registration_number, registration_year, odometer, rented, model_id) " +
                     "VALUES ('" + car.getRegistrationNumber() + "','" + car.getRegistrationYear() + "'," +
-                    car.getOdometer() + "," + car.isRented() + ", (SELECT model_id FROM model WHERE model_name = '" + car.getModel() + "'));";
+                    car.getOdometer() + "," + car.isRented() +
+                    ", (SELECT model_id FROM model WHERE model_name = '" + car.getModel() + "'));";
             String sql2 = "INSERT INTO brands(brand_id, brand_name) " +
                     "VALUES ((SELECT MAX(brand_id)+1 FROM brands brn), '" + car.getBrand() + "') " +
                     "ON DUPLICATE KEY UPDATE " +
