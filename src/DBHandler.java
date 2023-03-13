@@ -77,6 +77,34 @@ public class DBHandler {
         }
         return specicficCustomerList;
     }
+    public void querySpecificRentalContract(String searchParameter){
+        ArrayList<Rental> specificRentalContracts = new ArrayList<>();
+        try {
+            con = DriverManager.getConnection(database_url, "root", "password");
+            Statement s = con.createStatement();
+            String sql = "SELECT id_rental_contract, from_date, mobile_phone_number, phone_number," +
+                    "email_address, driver_since_date, address, city_zip, city_name " +
+                    "FROM customers " +
+                    "INNER JOIN address " +
+                    "USING(address) " +
+                    "INNER JOIN city " +
+                    "USING(city_zip) " +
+                    "WHERE driver_license_number " +
+                    "LIKE " + "%" + searchParameter + "%";
+            ResultSet rs = s.executeQuery(sql);
+            while (rs.next()) {
+                specificRentalContracts.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6),
+                        rs.getString(7), rs.getString(8), rs.getString(9)));
+            }
+            int rows = 0;
+            rows += s.executeUpdate(sql);
+            System.out.println("Rows affected: " + rows);
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+
+    }
 
     /**
      * deletes a customer from the database through a subquery in address table cascading on address column
