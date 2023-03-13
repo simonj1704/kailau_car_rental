@@ -146,7 +146,7 @@ public class Input_Output {
      * @return search parameter
      */
     public String specificInfo() {
-        System.out.println("Please enter search parameter: (Part of name, drivers license number etc.");
+        System.out.println("Please enter search parameter: (Part of name, drivers license number etc.)");
         return in.nextLine();
     }
 
@@ -169,7 +169,12 @@ public class Input_Output {
         System.out.println("Driver License Number\t Name\t Mobile Number\t Phone Number\t Email\t " +
                 "Driver Since Date\t Address\t ZIP\t City");
         for (int i = 0; i < customers.size(); i++) {
-            System.out.println(customers.get(i));
+            System.out.printf("%-10s\t %-10s\t %-10s\t %-10s\t %-10s\t %-10s\t %-10s\t %-10s\t %-10s",
+                    customers.get(i).getDriversLicenseNumber(), customers.get(i).getName(),
+                    customers.get(i).getMobileNumber(), customers.get(i).getPhoneNumber(),
+                    customers.get(i).getEmail(),customers.get(i).getDriverSinceDate(),
+                    customers.get(i).getAddress(),customers.get(i).getZipCode(),
+                    customers.get(i).getCity());
         }
     }
 
