@@ -135,12 +135,11 @@ public class Controller {
     }
 
     public void searchSpecificCar(){
-        //todo create method
+        inputOutput.printCars(dbHandler.querySpecificCar(inputOutput.specificInfo()));
     }
 
     public void searchSpecificContract(){
         inputOutput.printRentalAgreements(dbHandler.querySpecificRentalContract(inputOutput.specificInfo()));
-        //todo create method
     }
 
     /**
