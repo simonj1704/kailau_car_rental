@@ -166,10 +166,11 @@ public class Input_Output {
     }
 
     public void printCustomers(ArrayList<Customer> customers) {
-        System.out.println("Driver License Number\t Name\t Mobile Number\t Phone Number\t Email\t " +
-                "Driver Since Date\t Address\t ZIP\t City");
+        System.out.printf("%-15s\t %-15s\t %-12s\t %-12s\t %-20s\t %-12s\t %-15s\t %-5s\t %-10s\n",
+                "License Number", "Name", "Mobile Number", "Phone Number", "Email",
+                "Driver Since", "Address", "ZIP", "City");
         for (int i = 0; i < customers.size(); i++) {
-            System.out.printf("%-10s\t %-10s\t %-10s\t %-10s\t %-10s\t %-10s\t %-10s\t %-10s\t %-10s",
+            System.out.printf("%-15s\t %-15s\t %-12s\t %-12s\t %-20s\t %-12s\t %-15s\t %-5s\t %-10s\n",
                     customers.get(i).getDriversLicenseNumber(), customers.get(i).getName(),
                     customers.get(i).getMobileNumber(), customers.get(i).getPhoneNumber(),
                     customers.get(i).getEmail(),customers.get(i).getDriverSinceDate(),
