@@ -1,6 +1,7 @@
 package src;
 
 import src.entities.Car;
+import src.entities.Customer;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -168,10 +169,12 @@ public class Input_Output {
         }
     }
 
-    public void printCustomers(String customers) {
+    public void printCustomers(ArrayList<Customer> customers) {
         System.out.println("Driver License Number\t Name\t Mobile Number\t Phone Number\t Email\t " +
                 "Driver Since Date\t Address\t ZIP\t City");
-        System.out.println(customers);
+        for (int i = 0; i < customers.size(); i++) {
+            
+        }
     }
 
     public void printRentalAgreements(String contracts) {

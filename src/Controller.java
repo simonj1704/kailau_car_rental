@@ -4,8 +4,6 @@ import src.entities.Car;
 import src.entities.Customer;
 import src.entities.Rental;
 
-import java.util.Scanner;
-
 public class Controller {
     DBHandler dbHandler = new DBHandler();
     Input_Output inputOutput = new Input_Output();
@@ -134,7 +132,7 @@ public class Controller {
      * Searches the database for specifik customer
      */
     public void searchSpecificCustomer() {
-        dbHandler.querySpecificCustomer(inputOutput.specificCustomerInfo());
+        inputOutput.printCustomers(dbHandler.querySpecificCustomer(inputOutput.specificCustomerInfo()));
     }
 
     public void searchSpecificCar(){
