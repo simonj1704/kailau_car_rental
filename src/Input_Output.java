@@ -105,6 +105,10 @@ public class Input_Output {
         return carInfo;
     }
 
+
+    /**
+     * @return search parameter for deleteCustomerFromDatabase method
+     */
     public String deleteCustomerInfo() {
         System.out.println("Please enter customer drivers license:");
         return in.nextLine();
@@ -135,7 +139,16 @@ public class Input_Output {
         return customerInfo;
     }
 
+    /**
+     * returns search parameter for querySpecificCustomer method
+     * @return search parameter
+     */
     public String specificCustomerInfo() {
+        System.out.println("Please enter search parameter: (Part of name, drivers license number etc.");
+        return in.nextLine();
+    }
+
+    public String specificCarInfo(){
         System.out.println("Please enter search parameter: (Part of name, drivers license number etc.");
         return in.nextLine();
     }

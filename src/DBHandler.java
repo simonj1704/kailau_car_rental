@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class DBHandler {
     public static final String database_url = "jdbc:mysql://127.0.0.1:3306/kailau_car_rental";
     public static java.sql.Connection con;
+
     /**
      * Selects all data from customer table and prints it out
      */
@@ -49,7 +50,7 @@ public class DBHandler {
      * @param searchParameter Driver License Number
      */
     public ArrayList<Customer> querySpecificCustomer(String searchParameter) {
-        ArrayList<Customer> specicficCustomerList = new ArrayList<>();
+        ArrayList<Customer> specificCustomerList = new ArrayList<>();
         try {
             con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
@@ -61,10 +62,11 @@ public class DBHandler {
                     "INNER JOIN city " +
                     "USING(city_zip) " +
                     "WHERE driver_license_number " +
-                    "LIKE " + "%" + searchParameter + "%";
+                    "LIKE " + "%" + searchParameter + "%" +
+                    " OR customer_name LIKE '%" + searchParameter + "';";
             ResultSet rs = s.executeQuery(sql);
             while (rs.next()) {
-                specicficCustomerList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3),
+                specificCustomerList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3),
                         rs.getString(4), rs.getString(5), rs.getString(6),
                         rs.getString(7), rs.getString(8), rs.getString(9)));
             }
@@ -75,7 +77,7 @@ public class DBHandler {
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
         }
-        return specicficCustomerList;
+        return specificCustomerList;
     }
     public void querySpecificRentalContract(String searchParameter){
         ArrayList<Rental> specificRentalContracts = new ArrayList<>();
@@ -215,12 +217,12 @@ public class DBHandler {
      */
     public void addCustomerToDatabase(Customer customer){
         try {
-            con = DriverManager.getConnection(database_url, "root", "sesame80");
+            con = DriverManager.getConnection(database_url, "root", "password");
             Statement s = con.createStatement();
             String sql = "INSERT IGNORE INTO customers (driver_license_number, customer_name, mobile_phone_number, phone_number," +
                     " email_address, driver_since_date, address)" +
                     "VALUES(" + customer.getDriversLicenseNumber() + ",'" + customer.getName() + "','" +
-                    customer.getMobileNumber() + "','" + customer.getMobileNumber() + "','" + customer.getPhoneNumber() +
+                    customer.getMobileNumber() + "','" + customer.getPhoneNumber() + "','" + customer.getEmail() +
                     "','" + customer.getDriverSinceDate() + "','" + customer.getAddress() + "')";
             String sql2 = "INSERT IGNORE INTO address (address,city_zip) " + "VALUES('" + customer.getAddress() + "'," + customer.getZipCode() +")";
             String sql3 = "INSERT IGNORE INTO city (city_zip, city_name)" + "VALUES(" + customer.getZipCode() + ",'" + customer.getCity()+ "')";
@@ -241,7 +243,7 @@ public class DBHandler {
 
     /**
      * Takes a Car object as parameter and adds a car to the database and relevant tables
-     * @param car
+     * @param car object to be used to add car to database
      */
     public void addCarDatabase(Car car){
         try {
@@ -275,7 +277,7 @@ public class DBHandler {
 
     /**
      * Takes a rental object as parameter and adds a rental to the database and relevant tables
-     * @param rental
+     * @param rental object to be added to database
      */
     public void addRentalDatabase(Rental rental) {
         try {
